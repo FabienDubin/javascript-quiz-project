@@ -27,8 +27,30 @@ class Quiz {
   }
 
   // 4. shuffleQuestions()
+  shuffleQuestions() {
+    for (let i = this.questions.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [this.questions[i], this.questions[j]] = [
+        this.questions[j],
+        this.questions[i],
+      ];
+    }
+    return this.questions;
+  }
 
   // 5. checkAnswer(answer)
-
+  checkAnswer(answer) {
+    if (answer === this.questions[this.currentQuestionIndex].answer) {
+      /// Find how to do
+      return this.correctAnswers++;
+    }
+  }
   // 6. hasEnded()
+  hasEnded() {
+    if (this.currentQuestionIndex < this.questions.length) {
+      return false;
+    } else {
+      return true;
+    }
+  }
 }
