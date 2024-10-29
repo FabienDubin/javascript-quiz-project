@@ -28,12 +28,18 @@ class Quiz {
 
   // 4. shuffleQuestions()
   shuffleQuestions() {
-    for (let i = this.questions.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [this.questions[i], this.questions[j]] = [
-        this.questions[j],
-        this.questions[i],
-      ];
+    // The fancy Fisher-Yates shuffle
+    // for (let i = this.questions.length - 1; i > 0; i--) {
+    //   const j = Math.floor(Math.random() * (i + 1));
+    //   [this.questions[i], this.questions[j]] = [
+    //     this.questions[j],
+    //     this.questions[i],
+    //   ];
+    // }
+    const randomArray = [];
+    for (let i = this.questions.length - 1; i >= 0; i--) {
+      const randomIndex = Math.ceil(Math.random() * this.questions.length);
+      randomArray.push(this.questions.splice(randomIndex, 1)[0]);
     }
     return this.questions;
   }
