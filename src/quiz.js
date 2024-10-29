@@ -59,4 +59,21 @@ class Quiz {
       return true;
     }
   }
+
+  // I think the objective was to filter the array which doesnt change the original ... then set the array of questions equal to the filtered one
+  //************Day 2*****************
+  filterQuestionsByDifficulty(difficultyArg) {
+    if (difficultyArg === 1 || difficultyArg === 2 || difficultyArg === 3)
+      return (this.questions = this.questions.filter(
+        (currentQuestion) => currentQuestion.difficulty === difficultyArg
+      ));
+    else return this.questions;
+  }
+
+  averageDifficulty() {
+    const sum = this.questions.reduce((acc, currentQuiz) => {
+      return acc + currentQuiz.difficulty;
+    }, 0);
+    return sum / this.questions.length;
+  }
 }
