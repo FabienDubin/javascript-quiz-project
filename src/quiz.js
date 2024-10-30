@@ -29,18 +29,18 @@ class Quiz {
   // 4. shuffleQuestions()
   shuffleQuestions() {
     // The fancy Fisher-Yates shuffle
-    // for (let i = this.questions.length - 1; i > 0; i--) {
-    //   const j = Math.floor(Math.random() * (i + 1));
-    //   [this.questions[i], this.questions[j]] = [
-    //     this.questions[j],
-    //     this.questions[i],
-    //   ];
-    // }
-    const randomArray = [];
-    for (let i = this.questions.length - 1; i >= 0; i--) {
-      const randomIndex = Math.ceil(Math.random() * this.questions.length);
-      randomArray.push(this.questions.splice(randomIndex, 1)[0]);
+    for (let i = this.questions.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [this.questions[i], this.questions[j]] = [
+        this.questions[j],
+        this.questions[i],
+      ];
     }
+    // const randomArray = [];
+    // for (let i = this.questions.length - 1; i >= 0; i--) {
+    //   const randomIndex = Math.ceil(Math.random() * this.questions.length);
+    //   randomArray.push(this.questions.splice(randomIndex, 1)[0]);
+    // }
     return this.questions;
   }
 
@@ -75,5 +75,22 @@ class Quiz {
       return acc + currentQuiz.difficulty;
     }, 0);
     return sum / this.questions.length;
+  }
+
+  // Progress Bar of the quiz
+  progressionBar() {
+    return (this.currentQuestionIndex + 1) / this.questions.length;
+  }
+  resetProgressBar() {
+    return 0;
+  }
+
+  resetCurrentQuestionIndex() {
+    this.currentQuestionIndex = 0;
+    return this.currentQuestionIndex;
+  }
+
+  resetCorrectAnswers() {
+    return (this.correctAnswers = 0);
   }
 }
