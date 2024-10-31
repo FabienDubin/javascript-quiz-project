@@ -10,9 +10,10 @@ document.addEventListener("DOMContentLoaded", () => {
   const questionContainer = document.querySelector("#question");
   const choiceContainer = document.querySelector("#choices");
   const nextButton = document.querySelector("#nextButton");
+  const resetButton = document.querySelector("#restartButton");
+
   // End view elements
   const resultContainer = document.querySelector("#result");
-  const resetButton = document.querySelector("#restartButton");
 
   /************  SET VISIBILITY OF VIEWS  ************/
 
@@ -50,29 +51,45 @@ document.addEventListener("DOMContentLoaded", () => {
   /************  QUIZ INSTANCE  ************/
 
   // Create a new Quiz instance object
-  const quiz = new Quiz(questions, quizDuration, quizDuration);
+  let quiz = new Quiz(questions, quizDuration, quizDuration);
   // Shuffle the quiz questions
   quiz.shuffleQuestions();
 
   /************  SHOW INITIAL CONTENT  ************/
 
-  // Convert the time remaining in seconds to minutes and seconds, and pad the numbers with zeros if needed
-  const minutes = Math.floor(quiz.timeRemaining / 60)
-    .toString()
-    .padStart(2, "0");
-  const seconds = (quiz.timeRemaining % 60).toString().padStart(2, "0");
+  function timerFunction() {
+    const minutes = Math.floor(quiz.timeRemaining / 60)
+      .toString()
+      .padStart(2, "0");
+    const seconds = (quiz.timeRemaining % 60).toString().padStart(2, "0");
 
-  // Display the time remaining in the time remaining container
-  const timeRemainingContainer = document.getElementById("timeRemaining");
-  timeRemainingContainer.innerText = `${minutes}:${seconds}`;
+    // Display the time remaining in the time remaining container
+    const timeRemainingContainer = document.getElementById("timeRemaining");
+    timeRemainingContainer.innerText = `${minutes}:${seconds}`;
+  }
+  // Convert the time remaining in seconds to minutes and seconds, and pad the numbers with zeros if needed
 
   // Show first question
   showQuestion();
-
   /************  TIMER  ************/
+  let timer = null;
 
-  let timer;
+  startCountdown();
 
+  function startCountdown() {
+    console.log("startCountdown called!");
+
+    timer = setInterval(() => {
+      quiz.timeRemaining--;
+      timerFunction();
+      console.log(quiz.timeRemaining);
+
+      if (quiz.timeRemaining === 0) {
+        clearInterval(timer);
+        showResults();
+      }
+    }, 1000);
+  }
   /************  EVENT LISTENERS  ************/
 
   nextButton.addEventListener("click", nextButtonHandler);
@@ -116,8 +133,8 @@ document.addEventListener("DOMContentLoaded", () => {
     questionCount.innerText = `Question ${quiz.currentQuestionIndex + 1} of ${
       questions.length
     }`;
-    // console.log("### questions####", questions);
-    // console.log("### quiz####", quiz);
+    console.log("### questions####", questions);
+    console.log("### quiz####", quiz);
     //  This value is hardcoded as a placeholder
 
     // 4. Create and display new radio input element with a label for each choice.
@@ -185,18 +202,32 @@ document.addEventListener("DOMContentLoaded", () => {
     resultContainer.innerText = `You scored ${correctAnswers} out of ${totalQuestions} correct answers!`; // This value is hardcoded as a placeholder
   }
 
-  //#### Where we stopped on Wednesday
   resetButton.addEventListener("click", () => {
-    //working
+    // First reset the quiz
+    quiz = new Quiz(questions, quizDuration, quizDuration);
+    showQuestion();
+    timerFunction();
+    // SetTime out before leading the new quiz
+    // ///set timeout
+    // setTimeout(() => {
+    //   console.log("resetting the quiz");
     quizView.style.display = "block";
     endView.style.display = "none";
-    quiz.shuffleChoices();
+    // }, 300);
+    // reset the view to the splash screen
 
-    // not working
-    quiz.resetCurrentQuestionIndex();
-    console.log("##### test reset", quiz.resetCurrentQuestionIndex());
-    quiz.resetCorrectAnswers();
-    // quiz.resetProgressBar();
+    // window.location.reload()
+
+    // // set the currentquestion index to 0 (and so the progress bar)
+    // quiz.resetCurrentQuestionIndex;
+    // console.log("##### test reset", quiz.resetCurrentQuestionIndex);
+
+    // // reset the answer count
+    // quiz.resetCorrectAnswers;
+
+    // //shuffle choices
+    // quiz.shuffleChoices;
+
     // document.getElementsByName("choice").reset();
   });
 });

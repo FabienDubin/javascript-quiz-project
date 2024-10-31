@@ -81,16 +81,4 @@ class Quiz {
   progressionBar() {
     return (this.currentQuestionIndex + 1) / this.questions.length;
   }
-  // resetProgressBar() {
-  //   this.currentQuestionIndex = 0;
-  //   return 0;
-  // }
-
-  resetCurrentQuestionIndex() {
-    this.currentQuestionIndex = 0;
-  }
-
-  resetCorrectAnswers() {
-    this.correctAnswers = 0;
-  }
 }
