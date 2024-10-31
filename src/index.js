@@ -10,9 +10,9 @@ document.addEventListener("DOMContentLoaded", () => {
   const questionContainer = document.querySelector("#question");
   const choiceContainer = document.querySelector("#choices");
   const nextButton = document.querySelector("#nextButton");
-  const resetButton = document.querySelector("#restartButton");
   // End view elements
   const resultContainer = document.querySelector("#result");
+  const resetButton = document.querySelector("#restartButton");
 
   /************  SET VISIBILITY OF VIEWS  ************/
 
@@ -116,8 +116,8 @@ document.addEventListener("DOMContentLoaded", () => {
     questionCount.innerText = `Question ${quiz.currentQuestionIndex + 1} of ${
       questions.length
     }`;
-    console.log("### questions####", questions);
-    console.log("### quiz####", quiz);
+    // console.log("### questions####", questions);
+    // console.log("### quiz####", quiz);
     //  This value is hardcoded as a placeholder
 
     // 4. Create and display new radio input element with a label for each choice.
@@ -185,15 +185,18 @@ document.addEventListener("DOMContentLoaded", () => {
     resultContainer.innerText = `You scored ${correctAnswers} out of ${totalQuestions} correct answers!`; // This value is hardcoded as a placeholder
   }
 
+  //#### Where we stopped on Wednesday
   resetButton.addEventListener("click", () => {
+    //working
     quizView.style.display = "block";
-
     endView.style.display = "none";
-    quiz.resetCurrentQuestionIndex;
-    console.log("##### test reset", quiz.resetCurrentQuestionIndex);
-    quiz.resetCorrectAnswers;
-    quiz.shuffleChoices;
-    quiz.resetProgressBar;
-    document.getElementsByName("choice").reset();
+    quiz.shuffleChoices();
+
+    // not working
+    quiz.resetCurrentQuestionIndex();
+    console.log("##### test reset", quiz.resetCurrentQuestionIndex());
+    quiz.resetCorrectAnswers();
+    // quiz.resetProgressBar();
+    // document.getElementsByName("choice").reset();
   });
 });
